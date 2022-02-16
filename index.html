@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ios calculator</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="app">
+      <div class="calculator">
+        <div class="display">
+          <div class="displayTotal"></div>
+          <div class="displayCurrent"></div>
+        </div>
+        <div class="buttons">
+          <div class="row">
+            <div class="buttons btn-clear AC">AC</div>
+            <div class="buttons btn-clear plusMinus ">
+              <i class="fa-solid fa-plus-minus"></i>
+            </div>
+            <div class="buttons btn-clear  posNeg">
+              %
+            </div>
+            <div class="buttons btn-opr  divide">
+              <i class="fa-solid fa-divide"></i>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="buttons btn-number number  ">7</div>
+            <div class="buttons btn-number number  ">8</div>
+            <div class="buttons btn-number number  ">9</div>
+            <div class="buttons btn-opr multiple">
+              <i class="fa-solid fa-xmark"></i>
+            </div>
+          </div>
+          <div class="row">
+            <div class="buttons btn-number number  ">4</div>
+            <div class="buttons btn-number number  ">5</div>
+            <div class="buttons btn-number number  ">6</div>
+            <div class="buttons btn-opr minus">
+              <i class="fa-solid fa-minus"></i>
+            </div>
+          </div>
+          <div class="row">
+            <div class="buttons btn-number number  ">1</div>
+            <div class="buttons btn-number number  ">2</div>
+            <div class="buttons btn-number number  ">3</div>
+            <div class="buttons btn-opr plus">
+              <i class="fa-solid fa-plus"></i>
+            </div>
+          </div>
+          <div class="row">
+            <div class="buttons btn-number number number-0 width-50" style="align-items: flex-start; padding-left:3.7rem;">0</div>
+            <div class="buttons btn-number komma">
+                            ,   </div>
+
+            <div class="buttons btn-opr equal">
+              <i class="fa-solid fa-equals"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer">
+        Designed and code by
+        <a class="footer_link" href="https://github.com/halilkaran"
+          >Halil Karan
+        </a>
+      </footer>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,141 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+body {
+  font-size: 4rem;
+  font-weight: 400;
+  color: #ffffff;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  background: #333;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+  list-style: none;
+}
+
+.calculator {
+     border-radius: 50px;
+  height: 75rem;
+  width: 42rem;
+  background: black;
+  margin: 6rem auto;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+  padding: 1.6rem;
+}
+
+.display {
+  font-weight: 100;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  flex: 0 30%;
+}
+
+.displayCurrent {
+  flex: 75%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  font-size: 6rem;
+}
+
+.displayTotal {
+  flex: 25%;
+  font-size: 10rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+}
+
+.buttons {
+  font-size: 3.5rem;
+  display: flex;
+  flex: 0 70%;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.btn-number,
+.btn-opr,
+.btn-clear {
+  width: 9rem;
+  height: 85%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  text-align: center;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  transition: all 0.3s;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.btn-number:not(:last-child),
+.btn-opr:not(:last-child),
+.btn-clear:not(:last-child) {
+  margin-right: 1.3rem;
+}
+.btn-number:hover,
+.btn-opr:hover,
+.btn-clear:hover {
+  opacity: 0.7;
+}
+
+
+.btn-number{
+  background: #2d2d2d;
+}
+.btn-opr {
+  background: #f98d00;
+}
+.btn-clear {
+  background: #9c9c9c;
+  color: #000000;
+}
+
+.footer {
+  font-size: 2rem;
+  text-align: center;
+}
+
+.footer_link {
+  text-decoration: none;
+  color: #ffffff;
+}
+.footer_link:hover {
+  color: #dedede;
+}
+
+.width-50 {
+  flex: 130%;
+  border-radius: 10rem;
+}
+.posNeg {
+  font-weight: bolder!important;
+}
