@@ -19,6 +19,10 @@ for (let i in numbers) {
     }
   };
 }
+//! ------------------------------------------//
+//** FIND INDEX OF OPERAOTOR*/
+//! -----------------------------------------//
+
 let indexof = 0;
 let index = () => {
     let arr = [];
