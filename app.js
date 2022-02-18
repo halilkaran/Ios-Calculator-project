@@ -1,122 +1,159 @@
-let displayTotal = document.querySelector(".displayTotal");
-let displayCurrent = document.querySelector(".displayCurrent");
-let operator = ["+", "-", "*", "/"];
+//* ======================================================
+//*                     IOS CALCULATOR
+//* ======================================================
 
-//! ------------------------------------------//
-//** SELECT TO NUMBERS AND ONCLICK */
-//! -----------------------------------------//
+//! Selectors
 
-const numbers = document.querySelectorAll(".number");
-for (let i in numbers) {
-  numbers[i].onclick = () => {
-    if (
-      displayCurrent.textContent.length == 1 &&
-      displayCurrent.textContent == 0
-    ) {
-      displayCurrent.textContent = numbers[i].textContent;
-    } else if (displayCurrent.textContent.length < 11) {
-      displayCurrent.textContent += numbers[i].textContent;
-    }
-  };
-}
-//! ------------------------------------------//
-//** FIND INDEX OF OPERAOTOR*/
-//! -----------------------------------------//
+const numberButtons = document.querySelectorAll(".number");
+const operationButtons = document.querySelectorAll(".operator");
+const equalsButton = document.querySelector(".equal");
+const acButton = document.querySelector(".ac");
+const pmButton = document.querySelector(".pm");
+const percentButton = document.querySelector(".percent");
+const prevDisp = document.querySelector(".displayTotal");
+const currDisp = document.querySelector(".displayCurrent");
 
-let indexof = 0;
-let index = () => {
-    let arr = [];
- arr.push(displayCurrent.textContent.lastIndexOf("+"));
- arr.push(displayCurrent.textContent.lastIndexOf("-"));
- arr.push(displayCurrent.textContent.lastIndexOf("*"));
-arr.push(displayCurrent.textContent.lastIndexOf("/"));
-    indexof = Math.max(...arr);
-console.log(indexof);
-    
-}
+//? Operator variables
+let previousOperand = "";
+let currentOperand = "";
+let operation = "";
 
+//* After equal or percent buttons are pressed and then new number entered, we should clear the current display. This boolean variable is used to check these buttons are pressed or not
+let equalOrPercentBtnPressed = false;
 
-//! --------------------------------//
-//** SELECT TO COMMA*/
-//! --------------------------------//
-const comma = document.querySelector(".komma");
-comma.onclick = () => {
-    index();
-    if (displayCurrent.textContent == 0) {
-
-        displayCurrent.textContent = "0.";
-    }
-    if (
-      !displayCurrent.textContent.includes(".", indexof) &&
-      (displayCurrent.textContent.includes("+") ||
-        displayCurrent.textContent.includes("-") ||
-        displayCurrent.textContent.includes("*") ||
-        displayCurrent.textContent.includes("/")) &&
-      displayCurrent.textContent.slice(-1) != "."
-    ) {
-      displayCurrent.textContent += ".";
-    } if (displayCurrent.textContent.length < 2) {
-        displayCurrent.textContent += ".";
-    }
-    if (!displayCurrent.textContent.includes(".")) {
-        if (displayCurrent.textContent.slice(-1).includes(operator)) {
-            displayCurrent.textContent += "0.";
-        } else {
-            displayCurrent.textContent += "0.";
-        }
-    }
-}
-//! --------------------------------//
-//** AC ON CLICK */
-//! --------------------------------//
-
-document.querySelector(".AC").addEventListener("click", () => {
-  displayCurrent.textContent = "";
-  displayTotal.textContent = "";
+//!numbers and decimal buttons event
+numberButtons.forEach((number) => {
+  number.addEventListener("click", () => {
+    appendNumber(number.textContent);
+    updateDisplay();
+  });
 });
 
-//! --------------------------------//
-//** +- CLICK */
-//! --------------------------------//
-
-document.querySelector(".plusMinus").addEventListener("click", () => {
-  if (!displayCurrent.textContent.length || displayCurrent.textContent == 0)
-    displayCurrent.textContent = "-";
-  else if (
-    (displayCurrent.textContent.length == 1 ||
-      displayCurrent.textContent == 0) &&
-    displayCurrent.textContent.includes("-")
-  )
-    displayCurrent.textContent = "";
-  else if (!displayCurrent.textContent.includes("-"))
-    displayCurrent.textContent = 0 - Number(displayCurrent.textContent);
-  else if (displayCurrent.textContent.includes("-"))
-    displayCurrent.textContent = 0 - Number(displayCurrent.textContent);
+//!Operator button event
+operationButtons.forEach((op) => {
+  op.addEventListener("click", () => {
+    chooseOperator(op.textContent);
+    updateDisplay();
+  });
 });
 
-//! --------------------------------//
-//**  OPERATORS  **/
-//! --------------------------------//
-document.querySelector(".plus").addEventListener("click", () => {
-    if (!operator.includes(displayCurrent.textContent.slice(-1)))
-      displayCurrent.textContent += "+";
-})
-document.querySelector(".minus").addEventListener("click", () => {
-  if (!operator.includes(displayCurrent.textContent.slice(-1)))
-    displayCurrent.textContent += "-";
-});
-document.querySelector(".multiple").addEventListener("click", () => {
-  if (!operator.includes(displayCurrent.textContent.slice(-1)))
-    displayCurrent.textContent += "*";
+//! Equal button event
+equalsButton.addEventListener("click", () => {
+  compute();
+  updateDisplay();
+  equalOrPercentBtnPressed = true;
 });
 
-document.querySelector(".divide").addEventListener("click", () => {
-  if (!operator.includes(displayCurrent.textContent.slice(-1)))
-    displayCurrent.textContent += "/";
+//! All Clear(AC) button event
+acButton.addEventListener("click", () => {
+  clear();
+  updateDisplay();
 });
-document.querySelector(".equal").addEventListener("click", () => {
-  if (!operator.includes(displayCurrent.textContent.slice(-1)))
-        displayTotal.textContent = eval(displayCurrent.textContent);
-    displayCurrent.textContent = "";
-    
+
+//! plus-minus(+-) button event
+pmButton.addEventListener("click", () => {
+  plusMinus();
+  updateDisplay();
 });
+
+//! percent (%) button event
+percentButton.addEventListener("click", () => {
+  percent();
+  updateDisplay();
+  equalOrPercentBtnPressed = true;
+});
+
+//! When number and decimal buttons are clicked
+const appendNumber = (num) => {
+  if (num === "." && currentOperand.includes(".")) return;
+
+  if (currentOperand === "0" && num === "0") return;
+
+  if (currentOperand === "0" && num !== "0" && num !== ".") {
+    currentOperand = num;
+    return;
+  }
+
+  if (currentOperand.length > 10) return;
+
+  //! if equal or percent btn is pressed and then user enter new number
+  if (equalOrPercentBtnPressed) {
+    equalOrPercentBtnPressed = false; //* clear for next usage
+    currentOperand = num;
+    return;
+  }
+
+  currentOperand += num;
+};
+
+//! Display the numbers and computation
+const updateDisplay = () => {
+  if (currentOperand.toString().length > 12) {
+    currentOperand = currentOperand.toString().slice(0, 12);
+  }
+  currDisp.textContent = currentOperand;
+
+  if (operation != null) {
+    prevDisp.textContent = `${previousOperand} ${operation}`;
+  } else {
+    prevDisp.textContent = "";
+  }
+};
+const chooseOperator = (op) => {
+  if (currentOperand === "") return;
+
+  if (previousOperand) {
+    compute();
+  }
+
+  //? variable swapping
+  operation = op;
+  previousOperand = currentOperand;
+  currentOperand = "";
+};
+
+//? compute the result
+const compute = () => {
+  let computation;
+  const prev = parseFloat(previousOperand);
+  const current = parseFloat(currentOperand);
+  if (isNaN(prev) || isNaN(current)) return;
+  switch (operation) {
+    case "+":
+      computation = prev + current;
+      break;
+    case "-":
+      computation = prev - current;
+      break;
+    case "x":
+      computation = prev * current;
+      break;
+    case "÷":
+      computation = prev / current;
+      break;
+    default:
+      return;
+  }
+  currentOperand = computation;
+  operation = "";
+  previousOperand = "";
+};
+
+//? when ac button is clicked
+const clear = () => {
+  operation = "";
+  previousOperand = "";
+  currentOperand = "";
+};
+
+//? when pm button is clicked
+const plusMinus = () => {
+  if (!currentOperand) return;
+  currentOperand = currentOperand * -1;
+};
+
+//? when % button is clicked
+const percent = () => {
+  if (!currentOperand) return;
+  currentOperand = currentOperand / 100;
+};
